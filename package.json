@@ -1,0 +1,53 @@
+{
+  "name": "@tkitsunai/remix-auth-twitch",
+  "version": "1.0.0",
+  "description": "Twitch authentication strategy for remix-auth v4",
+  "main": "./dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./adapters": {
+      "import": "./dist/adapters/index.js",
+      "types": "./dist/adapters/index.d.ts"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "keywords": [
+    "remix",
+    "remix-auth",
+    "auth",
+    "authentication",
+    "strategy",
+    "remix-auth-twitch"
+  ],
+  "author": "tkitsunai",
+  "license": "MIT",
+  "packageManager": "pnpm@10.5.2",
+  "devDependencies": {
+    "@remix-run/node": "^2.16.5",
+    "@types/node": "^22.14.1",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
+  },
+  "dependencies": {
+    "remix-auth": "^4.2.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tkitsunai/remix-auth-twitch.git"
+  }
+}
