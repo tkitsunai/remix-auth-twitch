@@ -1,6 +1,6 @@
 {
   "name": "@tkitsunai/remix-auth-twitch",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Twitch authentication strategy for remix-auth v4",
   "main": "./dist/index.js",
   "type": "module",
