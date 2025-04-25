@@ -38,5 +38,27 @@ export async function refreshAccessToken({
   });
 
   if (!res.ok) return { success: false };
-  return await res.json();
+
+  try {
+    const json = await res.json() as unknown;
+
+    if (
+      typeof json === "object" &&
+      json !== null &&
+      "access_token" in json &&
+      "refresh_token" in json &&
+      "expires_in" in json
+    ) {
+      const validJson = json as RefreshTokenResponse;
+      return {
+        success: true,
+        access_token: validJson.access_token,
+        refresh_token: validJson.refresh_token,
+        expires_in: validJson.expires_in,
+      };
+    }
+  } catch (e) {
+    console.error("Failed to parse response JSON", e);
+  }
+  return { success: false };
 }

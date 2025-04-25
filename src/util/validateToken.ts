@@ -20,12 +20,18 @@ export async function validateAccessToken(
     return { valid: false };
   }
 
-  const json: {
-    expires_in: number;
-  } = await res.json();
+  try {
+    const json = await res.json();
 
-  return {
-    valid: true,
-    expiresIn: json.expires_in,
-  };
+    if (typeof json === "object" && json !== null && "expires_in" in json) {
+      return {
+        valid: true,
+        expiresIn: json.expires_in,
+      };
+    }
+  } catch (e) {
+    console.error("Failed to parse response JSON", e);
+    
+  }
+  return { valid: false };
 }

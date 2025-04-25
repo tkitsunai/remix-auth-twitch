@@ -1,6 +1,6 @@
 {
   "name": "@tkitsunai/remix-auth-twitch",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Twitch authentication strategy for remix-auth v4",
   "main": "./dist/index.js",
   "type": "module",
@@ -38,9 +38,9 @@
   "packageManager": "pnpm@10.5.2",
   "devDependencies": {
     "@remix-run/node": "^2.16.5",
-    "@types/node": "^22.14.1",
+    "@types/node": "^22.15.2",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.1"
+    "vitest": "^3.1.2"
   },
   "dependencies": {
     "remix-auth": "^4.2.0"
