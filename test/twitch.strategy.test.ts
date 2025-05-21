@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { TwitchStrategy } from "../src/twitch.strategy";
+import { TwitchStrategy, normalizeScope } from "../src/twitch.strategy";
 import type { TwitchProfile, TwitchVerifyParams } from "../src/twitch.strategy";
 
 function createRequest(url: string): Request {
@@ -74,5 +74,34 @@ describe("TwitchStrategy", () => {
       name: "Mock User",
       token: mockAccessToken,
     });
+  });
+});
+
+describe("normalizeScope", () => {
+  it("should return defaultScope if scope is undefined", () => {
+    expect(normalizeScope(undefined, "default:scope")).toBe("default:scope");
+  });
+  it("should return defaultScope if scope is empty array", () => {
+    expect(normalizeScope([], "default:scope")).toBe("default:scope");
+  });
+  it("should return the string if scope is a string", () => {
+    expect(normalizeScope("user:read:email", "default:scope")).toBe(
+      "user:read:email"
+    );
+  });
+  it("should join array with space if scope is string[]", () => {
+    expect(
+      normalizeScope(["user:read:email", "clips:edit"], "default:scope")
+    ).toBe("user:read:email clips:edit");
+  });
+  it("should use TwitchStrategyOptions.scope if provided", () => {
+    // Strategy経由でscopeが渡る場合の動作例
+    const opts = {
+      clientID: "id",
+      clientSecret: "sec",
+      callbackURL: "cb",
+      scope: ["a", "b"],
+    };
+    expect(normalizeScope(opts.scope, "default:scope")).toBe("a b");
   });
 });

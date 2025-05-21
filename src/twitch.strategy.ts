@@ -12,7 +12,7 @@ export interface TwitchStrategyOptions {
   clientID: string;
   clientSecret: string;
   callbackURL: string;
-  scope?: string;
+  scope?: string | string[];
 }
 
 export interface TwitchVerifyParams {
@@ -23,6 +23,16 @@ export interface TwitchVerifyParams {
     token_type?: string;
   };
   profile: TwitchProfile;
+}
+
+export function normalizeScope(
+  scope: string | string[] | undefined,
+  defaultScope: string = "user:read:email"
+): string {
+  if (!scope || (Array.isArray(scope) && scope.length === 0)) {
+    return defaultScope;
+  }
+  return Array.isArray(scope) ? scope.join(" ") : scope;
 }
 
 export class TwitchStrategy<User> extends Strategy<User, TwitchVerifyParams> {
@@ -44,10 +54,10 @@ export class TwitchStrategy<User> extends Strategy<User, TwitchVerifyParams> {
       authUrl.searchParams.set("response_type", "code");
       authUrl.searchParams.set("client_id", this.options.clientID);
       authUrl.searchParams.set("redirect_uri", this.options.callbackURL);
-      authUrl.searchParams.set(
-        "scope",
-        this.options.scope ?? "user:read:email"
-      );
+
+      const scopeStr = normalizeScope(this.options.scope, "user:read:email");
+      scopeStr && authUrl.searchParams.set("scope", scopeStr);
+
       authUrl.searchParams.set("state", crypto.randomUUID());
 
       throw new Response(null, {

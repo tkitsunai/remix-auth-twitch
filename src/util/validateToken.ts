@@ -31,7 +31,6 @@ export async function validateAccessToken(
     }
   } catch (e) {
     console.error("Failed to parse response JSON", e);
-    
   }
   return { valid: false };
 }
