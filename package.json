@@ -35,15 +35,14 @@
   ],
   "author": "tkitsunai",
   "license": "MIT",
-  "packageManager": "pnpm@10.5.2",
+  "packageManager": "pnpm@12.16.1",
   "devDependencies": {
-    "@remix-run/node": "^2.16.7",
-    "@types/node": "^22.15.21",
-    "typescript": "^5.8.3",
-    "vitest": "^3.1.4"
+    "remix-auth": "^4.2.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
   },
-  "dependencies": {
-    "remix-auth": "^4.2.0"
+  "peerDependencies": {
+    "remix-auth": "^4.0.0"
   },
   "files": [
     "dist"
