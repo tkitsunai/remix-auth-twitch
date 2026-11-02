@@ -58,7 +58,7 @@ this package provides a class-based adapter:
 import {
   createCookieSessionStorage,
   redirect,
-} from "@remix-run/node"; // or @remix-run/cloudflare
+} from "react-router"; // or @remix-run/node, @remix-run/cloudflare
 
 import {
   TwitchAuthSessionDriver,
@@ -90,4 +90,4 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 ```
 
 > [!WARNING]
-> The `adapters` driver is runtime-agnostic, but you must provide the `redirect` function and a Remix-compatible `SessionStorage` (e.g., from `@remix-run/node` or `@remix-run/cloudflare`).
+> The `adapters` driver is runtime-agnostic, but you must provide the `redirect` function and a Remix-compatible `SessionStorage` (e.g., from `react-router`, `@remix-run/node` or `@remix-run/cloudflare`). Only `getSession` / `commitSession` are required, so this package does not depend on any of them.

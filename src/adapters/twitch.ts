@@ -4,19 +4,38 @@ import {
   TwitchProfile,
   TwitchVerifyParams,
 } from "../twitch.strategy.js";
-import type { SessionStorage } from "@remix-run/node";
 import {
   validateAccessToken,
   ValidateAccessTokenResult,
 } from "../util/validateToken.js";
 import { refreshAccessToken } from "../util/refreshToken.js";
 
+/**
+ * Minimal structural subset of a Remix / React Router `Session`.
+ * Defined locally so this package does not depend on any specific runtime
+ * package (`@remix-run/node`, `@remix-run/cloudflare`, `react-router`, ...).
+ */
+export interface SessionLike {
+  get(name: string): unknown;
+  set(name: string, value: any): void;
+  unset(name: string): void;
+}
+
+/**
+ * Minimal structural subset of a Remix / React Router `SessionStorage`.
+ * Any `createCookieSessionStorage()` result is assignable to this.
+ */
+export interface SessionStorageLike {
+  getSession(cookieHeader?: string | null): Promise<SessionLike>;
+  commitSession(session: SessionLike): Promise<string>;
+}
+
 export type TwitchAuthSessionDriverOptions = {
   clientId: string;
   clientSecret: string;
   callbackURL: string;
   redirectAfterLogout?: string;
-  sessionStorage: SessionStorage;
+  sessionStorage: SessionStorageLike;
   redirect: (url: string, init?: ResponseInit) => Response;
 };
 
@@ -101,7 +120,7 @@ export class TwitchAuthSessionDriver {
     const session = await this.options.sessionStorage.getSession(
       request.headers.get("Cookie")
     );
-    return session.get("user") ?? null;
+    return (session.get("user") as TwitchAuthUser | undefined) ?? null;
   }
 
   async isAccessTokenValid(
